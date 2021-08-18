@@ -1,3 +1,6 @@
+import time
+import psutil
+
 from benchlib.metrics import Metric
 from benchlib.parameter import Parameter
 from benchlib.program import Program
@@ -9,6 +12,8 @@ class Engine:
         self.metric = None
         self.program = None
         #
+        self.execution_time = 0
+        self.memory = 0
         self.output = None
         self.execution_evaluation = None
 
@@ -22,6 +27,8 @@ class Engine:
         self.program = prog
 
     def run(self):
+        start = time.time()
         self.output = self.program.run(self.input)
+        self.execution_time = time.time() - start
+        self.memory = psutil.Process().memory_info().rss
         self.execution_evaluation = self.metric.evaluate(self.output)
-    
