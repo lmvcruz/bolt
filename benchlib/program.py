@@ -5,5 +5,5 @@ class Program:
     def __init__(self) -> None:
         pass
 
-    def run(self, input: Parameter):
+    def exec(self, input: Parameter):
         return None

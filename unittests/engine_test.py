@@ -10,29 +10,30 @@ class MockProgram(Program):
         super().__init__()
         self.mem = []
 
-    def run(self, input: Parameter):
-        self.result = {
+    def exec(self, input: Parameter):
+        self.mem = [i for i in range(1000000)]
+        return {
             "result": 2, 
             "index": input["index"]}
-        self.mem = [i for i in range(1000000)]
-        return self.result
+
 
 class EngineTest(unittest.TestCase):
     def test_eval_empty_engine(self):
         engine = Engine()
-        engine.setMetric(EmptyMetric())
         engine.setProgram(Program())
         engine.run()
-        self.assertEqual(engine.execution_evaluation, True)
+        self.assertEqual(engine.evaluate_output(EmptyMetric()), True)
 
     def test_mock_program(self):
-        engine = Engine()
-        engine.setMetric(ExactDictComparisonMetric({"result": 2, "index": 3}))
         prog = MockProgram()
+        metric = ExactDictComparisonMetric({"result": 2, "index": 3})
+        #
+        engine = Engine()
         engine.setProgram(prog)
         self.assertEqual(engine.execution_time, 0)
-        engine.run({"index": 3})
-        self.assertEqual(engine.execution_evaluation, True)
+        #
+        engine.run({"index": 3})       
+        self.assertEqual(engine.evaluate_output(metric), True)
         self.assertGreater(engine.execution_time, 0.02)
         # Memory bigger than 8*10MB: A list with 1M integer objects was added 
         self.assertGreater(engine.memory, 8*1024*1024)
