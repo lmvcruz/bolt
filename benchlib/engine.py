@@ -8,7 +8,6 @@ from benchlib.program import Program
 
 class Engine:
     def __init__(self) -> None:
-        self.input = None
         self.metric = None
         self.program = None
         #
@@ -17,18 +16,15 @@ class Engine:
         self.output = None
         self.execution_evaluation = None
 
-    def setInput(self, inp: Parameter):
-        self.input = inp
-
     def setMetric(self, met: Metric):
         self.metric = met
 
     def setProgram(self, prog: Program):
         self.program = prog
 
-    def run(self):
+    def run(self, input: Parameter = {}):
         start = time.time()
-        self.output = self.program.run(self.input)
+        self.output = self.program.run(input)
         self.execution_time = time.time() - start
         self.memory = psutil.Process().memory_info().rss
         self.execution_evaluation = self.metric.evaluate(self.output)

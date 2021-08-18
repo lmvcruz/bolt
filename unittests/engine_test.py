@@ -20,7 +20,6 @@ class MockProgram(Program):
 class EngineTest(unittest.TestCase):
     def test_eval_empty_engine(self):
         engine = Engine()
-        engine.setInput(Parameter())
         engine.setMetric(EmptyMetric())
         engine.setProgram(Program())
         engine.run()
@@ -28,12 +27,11 @@ class EngineTest(unittest.TestCase):
 
     def test_mock_program(self):
         engine = Engine()
-        engine.setInput({"index": 3})
         engine.setMetric(ExactDictComparisonMetric({"result": 2, "index": 3}))
         prog = MockProgram()
         engine.setProgram(prog)
         self.assertEqual(engine.execution_time, 0)
-        engine.run()
+        engine.run({"index": 3})
         self.assertEqual(engine.execution_evaluation, True)
         self.assertGreater(engine.execution_time, 0.02)
         # Memory bigger than 8*10MB: A list with 1M integer objects was added 
