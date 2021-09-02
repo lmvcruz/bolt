@@ -3,17 +3,17 @@ import sys
 ROOT_DIR = os.path.join(os.path.dirname(__file__), "../..")
 sys.path.append(ROOT_DIR)
 
-from benchlib.engine import Engine
+from benchlib.program import ProgramController
 from bolttests.programs.rootfinder import NewtonRootFinder, SubdivisionRootFinder
 
 
 def estimateRootFinder(prog, input):
-    engine = Engine()
-    engine.setProgram(prog)
+    controller = ProgramController()
+    controller.setProgram(prog)
     for case in input["cases"]:
-        engine.run(case)
-        print(engine.output)
-        print(f"Execution time: {engine.execution_time}")
+        controller.run(case)
+        print(controller.output)
+        print(f"Execution time: {controller.execution_time}")
 
 
 def main():

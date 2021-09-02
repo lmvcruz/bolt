@@ -5,7 +5,7 @@ sys.path.append(ROOT_DIR)
 
 import unittest
 
-from benchlib.engine import Engine
+from benchlib.program import ProgramController
 from benchlib.metrics import ExactDictComparisonMetric
 from bolttests.programs.fibonacci import NaiveFibonacci, DpFibonacci, IteratorFibonacci
 
@@ -21,16 +21,16 @@ class FibonacciTest(unittest.TestCase):
             "results": [1, 1, 2, 3, 5, 8, 13, 21, 34, 1346269]
         })
         #
-        engine = Engine()
-        engine.setProgram(prog)
+        controller = ProgramController()
+        controller.setProgram(prog)
         #
-        self.assertEqual(engine.execution_time, 0)
-        engine.run(input)       
-        self.assertEqual(engine.evaluate_output(metric), True)
-        self.assertGreater(engine.execution_time, 0.2)
+        self.assertEqual(controller.execution_time, 0)
+        controller.run(input)       
+        self.assertEqual(controller.evaluate_output(metric), True)
+        self.assertGreater(controller.execution_time, 0.2)
         # Memory used by a default infrastructure (18MB)
-        self.assertGreater(engine.memory, 18000000)
-        self.assertLess(engine.memory, default_memory_usage)
+        self.assertGreater(controller.memory, 18000000)
+        self.assertLess(controller.memory, default_memory_usage)
 
     def test_validate_dynamicprogrammingfibonacci(self):
         prog = DpFibonacci()
@@ -45,17 +45,17 @@ class FibonacciTest(unittest.TestCase):
             112102381301657019753922131204008107032943249802439891737991109609642417687024271467241971909001000928433174016012202680530522970872221529003044406006693244742562963426]
         })
         #
-        engine = Engine()
-        engine.setProgram(prog)
+        controller = ProgramController()
+        controller.setProgram(prog)
         #
-        self.assertEqual(engine.execution_time, 0)
-        engine.run(input)       
-        self.assertEqual(engine.evaluate_output(metric), True)
-        # print(engine.execution_time)
-        self.assertLess(engine.execution_time, 0.002)
+        self.assertEqual(controller.execution_time, 0)
+        controller.run(input)       
+        self.assertEqual(controller.evaluate_output(metric), True)
+        # print(controller.execution_time)
+        self.assertLess(controller.execution_time, 0.002)
         # Memory used by a default infrastructure (18MB)
-        self.assertGreater(engine.memory, 18000000)
-        self.assertLess(engine.memory, default_memory_usage)
+        self.assertGreater(controller.memory, 18000000)
+        self.assertLess(controller.memory, default_memory_usage)
 
 
     def test_validate_iteratorfibonacci(self):
@@ -77,16 +77,16 @@ class FibonacciTest(unittest.TestCase):
             54438373113565281338734260993750380135389184554695967026247715841208582865622349017083051547938960541173822675978026317384359584751116241439174702642959169925586334117906063048089793531476108466259072759367899150677960088306597966641965824937721800381441158841042480997984696487375337180028163763317781927941101369262750979509800713596718023814710669912644214775254478587674568963808002962265133111359929762726679441400101575800043510777465935805362502461707918059226414679005690752321895868142367849593880756423483754386342639635970733756260098962462668746112041739819404875062443709868654315626847186195620146126642232711815040367018825205314845875817193533529827837800351902529239517836689467661917953884712441028463935449484614450778762529520961887597272889220768537396475869543159172434537193611263743926337313005896167248051737986306368115003088396749587102619524631352447499505204198305187168321623283859794627245919771454628218399695789223798912199431775469705216131081096559950638297261253848242007897109054754028438149611930465061866170122983288964352733750792786069444761853525144421077928045979904561298129423809156055033032338919609162236698759922782923191896688017718575555520994653320128446502371153715141749290913104897203455577507196645425232862022019506091483585223882711016708433051169942115775151255510251655931888164048344129557038825477521111577395780115868397072602565614824956460538700280331311861485399805397031555727529693399586079850381581446276433858828529535803424850845426446471681531001533180479567436396815653326152509571127480411928196022148849148284389124178520174507305538928717857923509417743383331506898239354421988805429332440371194867215543576548565499134519271098919802665184564927827827212957649240235507595558205647569365394873317659000206373126570643509709482649710038733517477713403319028105575667931789470024118803094604034362953471997461392274791549730356412633074230824051999996101549784667340458326852960388301120765629245998136251652347093963049734046445106365304163630823669242257761468288461791843224793434406079917883360676846711185597501]
         })
         #
-        engine = Engine()
-        engine.setProgram(prog)
+        controller = ProgramController()
+        controller.setProgram(prog)
         #
-        self.assertEqual(engine.execution_time, 0)
-        engine.run(input)       
-        self.assertEqual(engine.evaluate_output(metric), True)
-        self.assertLess(engine.execution_time, 0.007)
+        self.assertEqual(controller.execution_time, 0)
+        controller.run(input)       
+        self.assertEqual(controller.evaluate_output(metric), True)
+        self.assertLess(controller.execution_time, 0.007)
         # Memory used by a default infrastructure (18MB)
-        self.assertGreater(engine.memory, 18000000)
-        self.assertLess(engine.memory, default_memory_usage)
+        self.assertGreater(controller.memory, 18000000)
+        self.assertLess(controller.memory, default_memory_usage)
 
 
 if __name__ == '__main__':

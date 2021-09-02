@@ -3,28 +3,28 @@ import sys
 ROOT_DIR = os.path.join(os.path.dirname(__file__), "../..")
 sys.path.append(ROOT_DIR)
 
-from benchlib.engine import Engine
 from benchlib.metrics import ExactDictComparisonMetric
+from benchlib.program import ProgramController
 from bolttests.programs.fibonacci import NaiveFibonacci, DpFibonacci, IteratorFibonacci
 
 def runProgram(prog, input, output):
-    engine = Engine()
-    engine.setProgram(prog)
-    engine.run(input)
-    if engine.evaluate_output(output):
+    controller = ProgramController()
+    controller.setProgram(prog)
+    controller.run(input)
+    if controller.evaluate_output(output):
         print("Ok!")
     else:
-        print(f"Fail: {engine.output}")
+        print(f"Fail: {controller.output}")
 
 
 def estimateFibonnaci(prog, input):
-    engine = Engine()
-    engine.setProgram(prog)
-    engine.run(input)
-    result = engine.output["results"]
+    controller = ProgramController()
+    controller.setProgram(prog)
+    controller.run(input)
+    result = controller.output["results"]
     for idx, fib in zip(input["indices"], result):
         print(f"Fib {idx} = {fib}")
-    print(f"Execution time: {engine.execution_time}")
+    print(f"Execution time: {controller.execution_time}")
 
 
 def main():

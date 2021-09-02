@@ -5,7 +5,7 @@ sys.path.append(ROOT_DIR)
 
 import unittest
 
-from benchlib.engine import Engine
+from benchlib.program import ProgramController
 from bolttests.programs.rootfinder import NewtonRootFinder, SubdivisionRootFinder
 
 
@@ -40,29 +40,25 @@ class RootFinderTest(unittest.TestCase):
     def test_validate_newton_rootfinder(self):
         # TODO: refactor to validate output
         prog = NewtonRootFinder()
-        engine = Engine()
-        engine.setProgram(prog)
+        controller = ProgramController()
+        controller.setProgram(prog)
         #
-        self.assertEqual(engine.execution_time, 0)
+        self.assertEqual(controller.execution_time, 0)
         for case in self.input["cases"]:
-            engine.run(case)       
-            print(engine.output)
+            controller.run(case)       
+            print(controller.output)
 
     def test_validate_subdivision_rootfinder(self):
         # TODO: refactor to validate output
         prog = SubdivisionRootFinder()
-        engine = Engine()
-        engine.setProgram(prog)
+        controller = ProgramController()
+        controller.setProgram(prog)
         #
-        self.assertEqual(engine.execution_time, 0)
+        self.assertEqual(controller.execution_time, 0)
         for case in self.input["cases"]:
-            engine.run(case)       
-            print(engine.output)
-
-
-def main():
-    unittest.main()
+            controller.run(case)       
+            print(controller.output)
 
 
 if __name__ == '__main__':
-    main()
+    unittest.main()
