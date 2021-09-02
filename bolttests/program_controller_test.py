@@ -5,7 +5,8 @@ sys.path.append(ROOT_DIR)
 
 import unittest
 
-from benchlib.metrics import ExactDictComparisonMetric, EmptyMetric
+from benchlib.metrics import EmptyMetric, ExactDictComparisonMetric
+from benchlib.metrics import ExecutionTimeMetric, MemoryConsumption
 from benchlib.program import Program, ProgramController
 from bolttests.programs.mockprog import MockProgram
 
@@ -14,37 +15,48 @@ class ProgramControllerTest(unittest.TestCase):
     def test_eval_empty_controller(self):
         controller = ProgramController()
         controller.setProgram(Program())
+        controller.addMetric(EmptyMetric())
         controller.run()
-        self.assertEqual(controller.evaluate_output(EmptyMetric()), True)
+        self.assertEqual(controller.toDict(), {'output': None, 'EmptyMetric': True})
 
     def test_mock_program_no_memory(self):
-        prog = MockProgram()
-        metric = ExactDictComparisonMetric({"result": 2, "index": 3})
-        #
         controller = ProgramController()
-        controller.setProgram(prog)
-        self.assertEqual(controller.execution_time, 0)
         #
-        controller.run({"index": 3})       
-        self.assertEqual(controller.evaluate_output(metric), True)
-        self.assertGreater(controller.execution_time, 0.02)
-        # Memory used by a default infrastructure (18MB)
-        self.assertGreater(controller.memory, 18000000)
+        prog = MockProgram()
+        controller.setProgram(prog)
+        #
+        controller.addMetric(ExactDictComparisonMetric({"result": 2, "index": 3}))
+        time_metric = ExecutionTimeMetric()
+        self.assertEqual(time_metric.execution_time, None)
+        controller.addMetric(time_metric)
+        controller.addMetric(MemoryConsumption())
+        #
+        #
+        controller.run({"index": 3})
+        metrics = controller.toDict()
+        self.assertGreater(metrics["ExecutionTimeMetric"], 0.02)
+        self.assertLess(metrics["MemoryConsumption"], 1)
 
     def test_mock_program_consuming_memory(self):
-        prog = MockProgram([i for i in range(1000000)])
-        metric = ExactDictComparisonMetric({"result": 2, "index": 3})
         controller = ProgramController()
+        #
+        prog = MockProgram()
         controller.setProgram(prog)
         #
-        self.assertEqual(controller.execution_time, 0)
-        controller.run({"index": 3})       
-        self.assertEqual(controller.evaluate_output(metric), True)
-        self.assertGreater(controller.execution_time, 0.02)
-        # Memory bigger than 60MB: ~20MB by default + a list with 1M integer objs 
-        # that was emperically observed arounf 40MB
-        self.assertGreater(controller.memory, 60000000)
-        self.assertEqual(len(prog.mem), 1000000)
+        controller.addMetric(ExactDictComparisonMetric({"result": 2, "index": 3}))
+        time_metric = ExecutionTimeMetric()
+        self.assertEqual(time_metric.execution_time, None)
+        controller.addMetric(time_metric)
+        controller.addMetric(MemoryConsumption())
+        #
+        controller.run({"index": 3, "allocate": True})
+        metrics = controller.toDict()
+        self.assertGreater(metrics["ExecutionTimeMetric"], 0.02)
+        # The 'allocate' field in the input sent to controller.run, enables the program 
+        # allocates a list of 1M of numbers (from 0 to 1M). It was emperically observed 
+        # that this list occuppies a space of ~40MB in memory
+        self.assertGreater(metrics["MemoryConsumption"], 40000000)
+
 
 
 if __name__ == '__main__':

@@ -15,6 +15,8 @@ class Program:
 class ProgramController:
     def __init__(self) -> None:
         self.program = None
+        # self.metrics = list[Metric]
+        self.metrics = []
         #
         self.execution_time = 0
         self.memory = 0
@@ -23,11 +25,29 @@ class ProgramController:
     def setProgram(self, prog: Program):
         self.program = prog
 
-    def run(self, input: Parameter = {}):
-        start = time.time()
-        self.output = self.program.exec(input)
-        self.execution_time = time.time() - start
-        self.memory = psutil.Process().memory_info().rss
+    def addMetric(self, m: Metric):
+        self.metrics.append(m)
 
-    def evaluate_output(self, metric: Metric):
-        return metric.evaluate(self.output)
+    def setup(self, input):
+        for m in self.metrics:
+            m.setup(input)
+
+    def teardown(self, output):
+        for m in self.metrics:
+            m.teardown(output)
+
+    def run(self, input: Parameter = {}):
+        self.setup(input)
+        self.output = self.program.exec(input)
+        self.teardown(self.output)
+
+    def toDict(self):
+        d = {
+            "output": self.output
+        }
+        for m in self.metrics:
+            d[m.name] = m.value
+        return d
+
+    # def evaluate_output(self, metric: Metric):
+    #     return metric.evaluate(self.output)
