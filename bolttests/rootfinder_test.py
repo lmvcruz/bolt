@@ -58,3 +58,11 @@ class RootFinderTest(unittest.TestCase):
         for case in self.input["cases"]:
             engine.run(case)       
             print(engine.output)
+
+
+def main():
+    unittest.main()
+
+
+if __name__ == '__main__':
+    main()

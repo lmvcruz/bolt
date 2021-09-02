@@ -27,7 +27,7 @@ def estimateFibonnaci(prog, input):
     print(f"Execution time: {engine.execution_time}")
 
 
-if __name__ == "__main__":
+def main():
     input = {
         "indices": [0, 1, 2, 3, 4, 5, 6, 7, 8]
     }
@@ -45,3 +45,7 @@ if __name__ == "__main__":
     input["indices"] = [1, 10, 30, 50, 80, 100, 300, 500, 800, 
                         1000, 3000, 5000, 8000, 10000]
     estimateFibonnaci(IteratorFibonacci(), input)
+
+
+if __name__ == "__main__":
+    main()

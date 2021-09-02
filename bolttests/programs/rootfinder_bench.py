@@ -16,7 +16,7 @@ def estimateRootFinder(prog, input):
         print(f"Execution time: {engine.execution_time}")
 
 
-if __name__ == "__main__":
+def main():
     input = {
         "cases": [
             {
@@ -43,3 +43,7 @@ if __name__ == "__main__":
     }
     estimateRootFinder(NewtonRootFinder(), input)
     estimateRootFinder(SubdivisionRootFinder(), input)
+
+
+if __name__ == "__main__":
+    main()
