@@ -5,54 +5,65 @@ from bolt.parameter import Parameter
 
 
 class Metric:
-    def __init__(self, name) -> None:
+    NAME = "ABSTRACT_METRIC"
+
+    def __init__(self, name="ABSTRACT_METRIC") -> None:
         self.name = name
-    
-    def setup(self, input: Parameter):
+
+    # This method is not just the interface. Some specific metrics can do not
+    # do nothing in the setup step (then, do not overwrite this method)
+    def setup(self, _: Parameter = None):
         pass
 
-    def teardown(self, output: Parameter):
+    # This method is not just the interface. Some specific metrics can do not
+    # do nothing in the teardown step (then, do not overwrite this method)
+    def teardown(self, _: Parameter = None):
         pass
 
-    @property
-    def value(self):
-        return None
 
 class EmptyMetric(Metric):
+    NAME = "EMPTY_METRIC"
+
     def __init__(self) -> None:
-        super().__init__("EmptyMetric")
-        self.result = None
+        super().__init__(EmptyMetric.NAME)
+        self.__result = None
 
     def teardown(self, output: Parameter):
-        self.result = output is None
+        self.__result = output is None
 
     @property
     def value(self):
-        return self.result
+        return self.__result
+
 
 class ExactDictComparisonMetric(Metric):
+    NAME = "EXACT_DICT_COMPARISON"
+
     def __init__(self, expected) -> None:
-        super().__init__("ExactDictComparisonMetric")
-        self.expected = expected
+        super().__init__(ExactDictComparisonMetric.NAME)
+        self.__expected = expected
+        self.__result = None
 
     def teardown(self, output: Parameter):
-        self.result = self.expected == output
+        self.__result = self.__expected == output
 
     @property
     def value(self):
-        return self.result
+        return self.__result
 
 
 class ExecutionTimeMetric(Metric):
+    NAME = "EXECUTION_TIME"
+
     def __init__(self) -> None:
-        super().__init__("ExecutionTimeMetric")
+        super().__init__(ExecutionTimeMetric.NAME)
         self.start = None
         self.execution_time = None
-    
-    def setup(self, input: Parameter):
+
+    def setup(self, _: Parameter = None):
         self.start = time.time()
 
-    def teardown(self, output: Parameter):
+    def teardown(self, _: Parameter = None):
         self.execution_time = time.time() - self.start
 
     @property
@@ -61,17 +72,19 @@ class ExecutionTimeMetric(Metric):
 
 
 class MemoryConsumption(Metric):
+    NAME = "MEMORY_CONSUMPTION"
+
     def __init__(self) -> None:
-        super().__init__("MemoryConsumption")
-        self.start = None
-        self.memory = None
+        super().__init__(MemoryConsumption.NAME)
+        self.__start = None
+        self.__result = None
 
-    def setup(self, input: Parameter):
-        self.start = psutil.Process().memory_info().rss
+    def setup(self, _: Parameter = None):
+        self.__start = psutil.Process().memory_info().rss
 
-    def teardown(self, output: Parameter):
-        self.memory = psutil.Process().memory_info().rss - self.start
+    def teardown(self, _: Parameter = None):
+        self.__result = psutil.Process().memory_info().rss - self.__start
 
     @property
     def value(self):
-        return self.memory
+        return self.__result

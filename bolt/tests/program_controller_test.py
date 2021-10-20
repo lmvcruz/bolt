@@ -12,7 +12,7 @@ class ProgramControllerTest(unittest.TestCase):
         controller.setProgram(Program())
         controller.addMetric(EmptyMetric())
         controller.run()
-        self.assertEqual(controller.toDict(), {'output': None, 'EmptyMetric': True})
+        self.assertEqual(controller.toDict(), {'output': None, 'EMPTY_METRIC': True})
 
     def test_mock_program_no_memory(self):
         controller = ProgramController()
@@ -29,8 +29,8 @@ class ProgramControllerTest(unittest.TestCase):
         #
         controller.run({"index": 3})
         metrics = controller.toDict()
-        self.assertGreater(metrics["ExecutionTimeMetric"], 0.02)
-        self.assertLess(metrics["MemoryConsumption"], 1)
+        self.assertGreater(metrics["EXECUTION_TIME"], 0.02)
+        self.assertLess(metrics["MEMORY_CONSUMPTION"], 1)
 
     def test_mock_program_consuming_memory(self):
         controller = ProgramController()
@@ -46,11 +46,11 @@ class ProgramControllerTest(unittest.TestCase):
         #
         controller.run({"index": 3, "allocate": True})
         metrics = controller.toDict()
-        self.assertGreater(metrics["ExecutionTimeMetric"], 0.02)
-        # The 'allocate' field in the input sent to controller.run, enables the program 
-        # allocates a list of 1M of numbers (from 0 to 1M). It was emperically observed 
+        self.assertGreater(metrics["EXECUTION_TIME"], 0.02)
+        # The 'allocate' field in the input sent to controller.run, enables the program
+        # allocates a list of 1M of numbers (from 0 to 1M). It was emperically observed
         # that this list occuppies a space of ~40MB in memory
-        self.assertGreater(metrics["MemoryConsumption"], 40000000)
+        self.assertGreater(metrics["MEMORY_CONSUMPTION"], 40000000)
 
 
 
