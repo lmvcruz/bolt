@@ -1,8 +1,3 @@
-import os
-import sys
-ROOT_DIR = os.path.join(os.path.dirname(__file__), "..", "..")
-sys.path.append(ROOT_DIR)
-
 # Benchmark programs
 from bolt.tests.programs import fib_bench 
 from bolt.tests.programs import rootfinder_bench 

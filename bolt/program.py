@@ -1,6 +1,3 @@
-import time
-import psutil
-
 from bolt.metrics import Metric
 from bolt.parameter import Parameter
 
