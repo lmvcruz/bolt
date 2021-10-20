@@ -1,12 +1,12 @@
 import os
 import sys
-ROOT_DIR = os.path.join(os.path.dirname(__file__), "..")
+ROOT_DIR = os.path.join(os.path.dirname(__file__), "..", "..")
 sys.path.append(ROOT_DIR)
 
 import unittest
 
-from benchlib.program import ProgramController
-from bolttests.programs.rootfinder import NewtonRootFinder, SubdivisionRootFinder
+from bolt.program import ProgramController
+from bolt.tests.programs.rootfinder import NewtonRootFinder, SubdivisionRootFinder
 
 
 class RootFinderTest(unittest.TestCase):

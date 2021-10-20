@@ -1,14 +1,14 @@
 import os
 import sys
-ROOT_DIR = os.path.join(os.path.dirname(__file__), "..")
+ROOT_DIR = os.path.join(os.path.dirname(__file__), "..", "..")
 sys.path.append(ROOT_DIR)
 
 import unittest
 
-from benchlib.metrics import EmptyMetric, ExactDictComparisonMetric
-from benchlib.metrics import ExecutionTimeMetric, MemoryConsumption
-from benchlib.program import Program, ProgramController
-from bolttests.programs.mockprog import MockProgram
+from bolt.metrics import EmptyMetric, ExactDictComparisonMetric
+from bolt.metrics import ExecutionTimeMetric, MemoryConsumption
+from bolt.program import Program, ProgramController
+from bolt.tests.programs.mockprog import MockProgram
 
 
 class ProgramControllerTest(unittest.TestCase):

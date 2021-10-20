@@ -1,8 +1,8 @@
 # Even it is not explicitely used, it can be used by implicit evaluated functions
 import math  
 
-from benchlib.parameter import Parameter
-from benchlib.program import Program
+from bolt.parameter import Parameter
+from bolt.program import Program
 
 eps = 0.0001
 max_counter = 1000

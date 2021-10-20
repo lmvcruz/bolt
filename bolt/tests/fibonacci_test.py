@@ -1,14 +1,14 @@
 import os
 import sys
-ROOT_DIR = os.path.join(os.path.dirname(__file__), "..")
+ROOT_DIR = os.path.join(os.path.dirname(__file__), "..", "..")
 sys.path.append(ROOT_DIR)
 
 import unittest
 
-from benchlib.program import ProgramController
-from benchlib.metrics import ExactDictComparisonMetric
-from benchlib.metrics import ExecutionTimeMetric, MemoryConsumption
-from bolttests.programs.fibonacci import NaiveFibonacci, DpFibonacci, IteratorFibonacci
+from bolt.program import ProgramController
+from bolt.metrics import ExactDictComparisonMetric
+from bolt.metrics import ExecutionTimeMetric, MemoryConsumption
+from bolt.tests.programs.fibonacci import NaiveFibonacci, DpFibonacci, IteratorFibonacci
 
 
 class FibonacciTest(unittest.TestCase):

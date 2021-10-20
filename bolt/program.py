@@ -1,8 +1,8 @@
 import time
 import psutil
 
-from benchlib.metrics import Metric
-from benchlib.parameter import Parameter
+from bolt.metrics import Metric
+from bolt.parameter import Parameter
 
 
 class Program:

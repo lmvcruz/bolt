@@ -3,9 +3,9 @@ import sys
 ROOT_DIR = os.path.join(os.path.dirname(__file__), "../..")
 sys.path.append(ROOT_DIR)
 
-from benchlib.metrics import ExactDictComparisonMetric
-from benchlib.program import ProgramController
-from bolttests.programs.fibonacci import NaiveFibonacci, DpFibonacci, IteratorFibonacci
+from bolt.metrics import ExactDictComparisonMetric
+from bolt.program import ProgramController
+from bolt.tests.programs.fibonacci import NaiveFibonacci, DpFibonacci, IteratorFibonacci
 
 def runProgram(prog, input, output):
     controller = ProgramController()

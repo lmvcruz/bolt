@@ -1,5 +1,5 @@
-from benchlib.parameter import Parameter
-from benchlib.program import Program
+from bolt.parameter import Parameter
+from bolt.program import Program
 
 
 class FibonacciProgram(Program):
