@@ -6,23 +6,22 @@ class Program:
     def __init__(self) -> None:
         pass
 
-    def exec(self, input: Parameter):
-        return None
+    def exec(self, _: Parameter):
+        raise NotImplementedError()
+
 
 class ProgramController:
     def __init__(self) -> None:
         self.program = None
-        # self.metrics = list[Metric]
         self.metrics = []
-        #
         self.execution_time = 0
         self.memory = 0
         self.output = None
 
-    def setProgram(self, prog: Program):
+    def set_program(self, prog: Program):
         self.program = prog
 
-    def addMetric(self, m: Metric):
+    def add_metric(self, m: Metric):
         self.metrics.append(m)
 
     def setup(self, input):
@@ -38,13 +37,10 @@ class ProgramController:
         self.output = self.program.exec(input)
         self.teardown(self.output)
 
-    def toDict(self):
+    def to_dict(self):
         d = {
             "output": self.output
         }
         for m in self.metrics:
             d[m.name] = m.value
         return d
-
-    # def evaluate_output(self, metric: Metric):
-    #     return metric.evaluate(self.output)

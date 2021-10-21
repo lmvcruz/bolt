@@ -36,22 +36,22 @@ class RootFinderTest(unittest.TestCase):
         # TODO: refactor to validate output
         prog = NewtonRootFinder()
         controller = ProgramController()
-        controller.setProgram(prog)
+        controller.set_program(prog)
         #
         self.assertEqual(controller.execution_time, 0)
         for case in self.input["cases"]:
-            controller.run(case)       
+            controller.run(case)
             print(controller.output)
 
     def test_validate_subdivision_rootfinder(self):
         # TODO: refactor to validate output
         prog = SubdivisionRootFinder()
         controller = ProgramController()
-        controller.setProgram(prog)
+        controller.set_program(prog)
         #
         self.assertEqual(controller.execution_time, 0)
         for case in self.input["cases"]:
-            controller.run(case)       
+            controller.run(case)
             print(controller.output)
 
 

@@ -4,7 +4,7 @@ from bolt.tests.programs.rootfinder import NewtonRootFinder, SubdivisionRootFind
 
 def estimateRootFinder(prog, input):
     controller = ProgramController()
-    controller.setProgram(prog)
+    controller.set_program(prog)
     for case in input["cases"]:
         controller.run(case)
         print(controller.output)

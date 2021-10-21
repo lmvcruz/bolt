@@ -1,12 +1,17 @@
 from bolt.metrics import ExactDictComparisonMetric
 from bolt.program import ProgramController
-from bolt.tests.programs.fibonacci import NaiveFibonacci, DpFibonacci, IteratorFibonacci
+from bolt.tests.programs.fibonacci import DpFibonacci
+from bolt.tests.programs.fibonacci import IteratorFibonacci
+from bolt.tests.programs.fibonacci import NaiveFibonacci
 
-def runProgram(prog, input, output):
+
+def runProgram(prog, input, metric):
     controller = ProgramController()
-    controller.setProgram(prog)
+    controller.set_program(prog)
+    controller.add_metric(metric)
     controller.run(input)
-    if controller.evaluate_output(output):
+    metrics = controller.to_dict()
+    if metrics[ExactDictComparisonMetric.NAME]:
         print("Ok!")
     else:
         print(f"Fail: {controller.output}")
@@ -14,7 +19,7 @@ def runProgram(prog, input, output):
 
 def estimateFibonnaci(prog, input):
     controller = ProgramController()
-    controller.setProgram(prog)
+    controller.set_program(prog)
     controller.run(input)
     result = controller.output["results"]
     for idx, fib in zip(input["indices"], result):
@@ -37,7 +42,7 @@ def main():
     estimateFibonnaci(NaiveFibonacci(), input)
     input["indices"] = [1, 10, 30, 50, 80, 100, 300, 500, 800]
     estimateFibonnaci(DpFibonacci(), input)
-    input["indices"] = [1, 10, 30, 50, 80, 100, 300, 500, 800, 
+    input["indices"] = [1, 10, 30, 50, 80, 100, 300, 500, 800,
                         1000, 3000, 5000, 8000, 10000]
     estimateFibonnaci(IteratorFibonacci(), input)
 

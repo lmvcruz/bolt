@@ -14,7 +14,7 @@ class MockProgram(Program):
         self.acm = 1
         for i in range(1000000):
             self.acm += i
-        print(len(self.mem))
         return {
-            "result": 2, 
-            "index": input["index"]}
+            "result": 2,
+            "index": input["index"]
+        }
