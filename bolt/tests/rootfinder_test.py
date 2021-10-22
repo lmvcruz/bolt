@@ -1,7 +1,8 @@
 import unittest
 
 from bolt.program import ProgramController
-from bolt.tests.programs.rootfinder import NewtonRootFinder, SubdivisionRootFinder
+from bolt.tests.programs.rootfinder import NewtonRootFinder
+from bolt.tests.programs.rootfinder import SubdivisionRootFinder
 
 
 class RootFinderTest(unittest.TestCase):

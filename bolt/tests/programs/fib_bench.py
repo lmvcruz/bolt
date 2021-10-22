@@ -5,7 +5,7 @@ from bolt.tests.programs.fibonacci import IteratorFibonacci
 from bolt.tests.programs.fibonacci import NaiveFibonacci
 
 
-def runProgram(prog, input, metric):
+def run_program(prog, input, metric):
     controller = ProgramController()
     controller.set_program(prog)
     controller.add_metric(metric)
@@ -17,7 +17,7 @@ def runProgram(prog, input, metric):
         print(f"Fail: {controller.output}")
 
 
-def estimateFibonnaci(prog, input):
+def estimate_fibonnaci(prog, input):
     controller = ProgramController()
     controller.set_program(prog)
     controller.run(input)
@@ -34,17 +34,17 @@ def main():
     output = ExactDictComparisonMetric({
         "results": [1, 1, 2, 3, 5, 8, 13, 21, 34]
     })
-    runProgram(NaiveFibonacci(), input, output)
-    runProgram(DpFibonacci(), input, output)
-    runProgram(IteratorFibonacci(), input, output)
+    run_program(NaiveFibonacci(), input, output)
+    run_program(DpFibonacci(), input, output)
+    run_program(IteratorFibonacci(), input, output)
     #
     input["indices"] = [1, 10, 30]
-    estimateFibonnaci(NaiveFibonacci(), input)
+    estimate_fibonnaci(NaiveFibonacci(), input)
     input["indices"] = [1, 10, 30, 50, 80, 100, 300, 500, 800]
-    estimateFibonnaci(DpFibonacci(), input)
+    estimate_fibonnaci(DpFibonacci(), input)
     input["indices"] = [1, 10, 30, 50, 80, 100, 300, 500, 800,
                         1000, 3000, 5000, 8000, 10000]
-    estimateFibonnaci(IteratorFibonacci(), input)
+    estimate_fibonnaci(IteratorFibonacci(), input)
 
 
 if __name__ == "__main__":

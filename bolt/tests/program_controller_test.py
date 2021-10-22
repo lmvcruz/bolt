@@ -1,7 +1,9 @@
 import unittest
 
-from bolt.metrics import EmptyMetric, ExactDictComparisonMetric
-from bolt.metrics import ExecutionTimeMetric, MemoryConsumption
+from bolt.metrics import EmptyMetric
+from bolt.metrics import ExactDictComparisonMetric
+from bolt.metrics import ExecutionTimeMetric
+from bolt.metrics import MemoryConsumption
 from bolt.program import Program, ProgramController
 from bolt.tests.programs.mockprog import MockProgram
 

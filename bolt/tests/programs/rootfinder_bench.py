@@ -1,8 +1,9 @@
 from bolt.program import ProgramController
-from bolt.tests.programs.rootfinder import NewtonRootFinder, SubdivisionRootFinder
+from bolt.tests.programs.rootfinder import NewtonRootFinder
+from bolt.tests.programs.rootfinder import SubdivisionRootFinder
 
 
-def estimateRootFinder(prog, input):
+def estimate_root_finder(prog, input):
     controller = ProgramController()
     controller.set_program(prog)
     for case in input["cases"]:
@@ -36,8 +37,8 @@ def main():
             },
         ]
     }
-    estimateRootFinder(NewtonRootFinder(), input)
-    estimateRootFinder(SubdivisionRootFinder(), input)
+    estimate_root_finder(NewtonRootFinder(), input)
+    estimate_root_finder(SubdivisionRootFinder(), input)
 
 
 if __name__ == "__main__":

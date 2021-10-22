@@ -1,5 +1,5 @@
 # Even it is not explicitely used, it can be used by implicit evaluated functions
-import math  
+import math
 
 from bolt.parameter import Parameter
 from bolt.program import Program
@@ -30,7 +30,7 @@ class RootFinderProgram(Program):
         return (self.evaluateFunction(x + eps) - self.evaluateFunction(x)) / eps
 
     def findRoot(self, init, end):
-        pass
+        raise NotImplementedError()
 
 
 class NewtonRootFinder(RootFinderProgram):
@@ -56,7 +56,7 @@ class SubdivisionRootFinder(RootFinderProgram):
         if abs(self.evaluateFunction(self.root)) < eps or self.iters >= max_counter:
             return
         else:
-            if self.evaluateFunction(init)*self.evaluateFunction(self.root) > 0:
+            if self.evaluateFunction(init) * self.evaluateFunction(self.root) > 0:
                 self.findRoot(self.root, end)
             else:
                 self.findRoot(init, self.root)
