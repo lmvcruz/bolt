@@ -4,8 +4,9 @@ from bolt.metrics import EmptyMetric
 from bolt.metrics import ExactDictComparisonMetric
 from bolt.metrics import ExecutionTimeMetric
 from bolt.metrics import MemoryConsumption
-from bolt.program import Program, ProgramController
-from bolt.tests.programs.mockprog import MockProgram
+from bolt.program import Program
+from bolt.program import ProgramController
+from bolt.samples.mockprog import MockProgram
 
 
 class ProgramControllerTest(unittest.TestCase):

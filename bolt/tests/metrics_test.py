@@ -62,6 +62,7 @@ class MetricTest(unittest.TestCase):
         m.teardown()
         self.assertGreater(m.value, 0.1)
 
+    # TODO: This memory consumption behaviour is not a stable implementation
     def test_create_memory_consumption_metric(self):
         m = MemoryConsumption()
         self.assertEqual(m.name, MemoryConsumption.NAME)
@@ -71,7 +72,7 @@ class MetricTest(unittest.TestCase):
         m.teardown()
         self.assertEqual(m.value, 0)
         m.setup()
-        something = [i for i in range(1000)]
+        something = [i for i in range(10000)]
         m.teardown()
         self.assertGreater(m.value, 4000)
         self.assertEqual(something, something)
