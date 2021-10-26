@@ -4,8 +4,8 @@ import math
 from bolt.parameter import Parameter
 from bolt.program import Program
 
-eps = 0.0001
-max_counter = 1000
+EPS = 0.0001
+MAX_COUNTER = 1000
 
 
 class RootFinderProgram(Program):
@@ -27,7 +27,7 @@ class RootFinderProgram(Program):
         }
 
     def evaluateDerivative(self, x):
-        return (self.evaluateFunction(x + eps) - self.evaluateFunction(x)) / eps
+        return (self.evaluateFunction(x + EPS) - self.evaluateFunction(x)) / EPS
 
     def findRoot(self, init, end):
         raise NotImplementedError()
@@ -39,7 +39,7 @@ class NewtonRootFinder(RootFinderProgram):
 
     def findRoot(self, init, end):
         self.root = (init + end) / 2
-        while self.iters < max_counter and abs(self.evaluateFunction(self.root)) > eps:
+        while self.iters < MAX_COUNTER and abs(self.evaluateFunction(self.root)) > EPS:
             func = self.evaluateFunction(self.root)
             der = self.evaluateDerivative(self.root)
             self.root -= func / der
@@ -53,7 +53,7 @@ class SubdivisionRootFinder(RootFinderProgram):
     def findRoot(self, init, end):
         self.root = (init + end) / 2
         self.iters += 1
-        if abs(self.evaluateFunction(self.root)) < eps or self.iters >= max_counter:
+        if abs(self.evaluateFunction(self.root)) < EPS or self.iters >= MAX_COUNTER:
             return
         else:
             if self.evaluateFunction(init) * self.evaluateFunction(self.root) > 0:
