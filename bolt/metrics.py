@@ -39,10 +39,13 @@ class EmptyMetric(Metric):
 class ExactDictComparisonMetric(Metric):
     NAME = "EXACT_DICT_COMPARISON"
 
-    def __init__(self, expected) -> None:
+    def __init__(self) -> None:
         super().__init__(ExactDictComparisonMetric.NAME)
-        self.__expected = expected
+        self.__expected = None
         self.__result = None
+
+    def setup(self, expected: Parameter = None):
+        self.__expected = expected
 
     def teardown(self, output: Parameter):
         self.__result = self.__expected == output
