@@ -113,3 +113,23 @@ class ToleranceComparisonMetric(Metric):
     @property
     def value(self):
         return self.__result
+
+
+class AccuracyMetric(Metric):
+    NAME = "ACCURACY"
+
+    def __init__(self) -> None:
+        super().__init__(AccuracyMetric.NAME)
+        self.__expected = None
+        self.__result = None
+
+    def setup(self, expected: Parameter = None):
+        self.__expected = expected["result"]
+
+    def teardown(self, output: Parameter):
+        actual = output["result"]
+        self.__result = math.fabs(actual - self.__expected)
+
+    @property
+    def value(self):
+        return self.__result

@@ -4,7 +4,7 @@ import math
 from bolt import Parameter
 from bolt import Program
 from bolt.engine import Engine
-from bolt.metrics import ExecutionTimeMetric, ToleranceComparisonMetric
+from bolt.metrics import ExecutionTimeMetric, ToleranceComparisonMetric, AccuracyMetric
 
 EPS = 0.0001
 MAX_COUNTER = 1000
@@ -91,6 +91,22 @@ def estimate_root_finder_with_comprehensive_engine(prog, cases):
     engine.comprehensive_report.show()
 
 
+def compare_root_finder_accuracy(cases):
+    engine = Engine()
+    engine.add_program(NewtonRootFinder())
+    engine.add_program(SubdivisionRootFinder())
+    comp_metric = AccuracyMetric()
+    comp_metric_name = comp_metric.__class__.NAME
+    engine.add_results_metrics(comp_metric)
+    expected = Parameter({"result": 0.0})
+    for case in cases:
+        engine.add_input_and_expected_output(Parameter(case), expected)
+    engine.run()
+    engine.report.show()
+    engine.add_comprehensive_average_metric_report(comp_metric_name)
+    engine.comprehensive_report.show()
+
+
 def main():
     cases = [
         {"init": 1, "end": 3, "func": "lambda x: math.pow(x-0.0001, 2) - 3.2"},
@@ -107,6 +123,8 @@ def main():
 
     estimate_root_finder(SubdivisionRootFinder(), cases)
     estimate_root_finder_with_comprehensive_engine(SubdivisionRootFinder(), cases)
+
+    compare_root_finder_accuracy(cases)
 
 
 if __name__ == "__main__":

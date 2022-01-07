@@ -51,7 +51,7 @@ class Engine:
             correct_cases = 0
             quantity_cases = 0
             for case in self.report.programs_report[prog].cases:
-                correct_cases += 1 if case[metric_name] else 0
+                correct_cases += case[metric_name]
                 quantity_cases += 1
 
             prog_accur = float(correct_cases) / float(quantity_cases)
