@@ -1,6 +1,6 @@
 from bolt.engine import Engine
-from bolt.parameter import Parameter
-from bolt.program import Program
+from bolt import Parameter
+from bolt import Program
 
 
 class FibonacciProgram(Program):

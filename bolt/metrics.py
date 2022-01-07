@@ -1,7 +1,7 @@
 import time
 import psutil
 
-from bolt.parameter import Parameter
+from bolt import Parameter
 
 
 class Metric:
