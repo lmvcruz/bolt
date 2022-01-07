@@ -1,6 +1,6 @@
 from bolt import Parameter
 from bolt import Program
-from bolt.engine import Engine, ExecutionCorrectnessEngine
+from bolt.engine import Engine
 from bolt.metrics import (
     ExecutionTimeMetric,
     MemoryConsumption,
@@ -64,8 +64,7 @@ class IteratorFibonacci(FibonacciProgram):
 
 def execute_naive_fibonacci(indices):
     engine = Engine()
-    prog = NaiveFibonacci()
-    engine.add_program(prog)
+    engine.add_program(NaiveFibonacci())
     engine.add_execution_metric(ExecutionTimeMetric())
     engine.add_execution_metric(MemoryConsumption())
     for inp in indices:
@@ -76,15 +75,35 @@ def execute_naive_fibonacci(indices):
 
 
 def validate_naive_fibonacci_result(indices, results):
-    engine = ExecutionCorrectnessEngine()
+    engine = Engine()
     engine.add_program(NaiveFibonacci())
     engine.add_execution_metric(ExecutionTimeMetric())
     engine.add_execution_metric(MemoryConsumption())
+    comp_metric = ExactDictComparisonMetric()
+    comp_metric_name = comp_metric.__class__.NAME
+    engine.add_results_metrics(comp_metric)
     for idx, res in zip(indices, results):
         input = Parameter({"index": idx})
         expected_out = Parameter({"result": res})
         engine.add_input_and_expected_output(input, expected_out)
     engine.run()
+    engine.add_comprehensive_average_metric_report(comp_metric_name)
+    engine.comprehensive_report.show()
+
+
+def compare_fibonacci_performance(indices):
+    engine = Engine()
+    engine.add_program(NaiveFibonacci())
+    engine.add_program(DpFibonacci())
+    engine.add_program(IteratorFibonacci())
+    comp_metric = ExecutionTimeMetric()
+    comp_metric_name = comp_metric.__class__.NAME
+    engine.add_execution_metric(comp_metric)
+    for inp in indices:
+        input = Parameter({"index": inp})
+        engine.add_input(input)
+    engine.run()
+    engine.add_comprehensive_average_metric_report(comp_metric_name)
     engine.comprehensive_report.show()
 
 
@@ -94,6 +113,8 @@ def main():
 
     results = [1, 1, 2, 3, 5, 8, 13, 21, 34, 10946]
     validate_naive_fibonacci_result(indices, results)
+
+    compare_fibonacci_performance(indices)
 
 
 if __name__ == "__main__":

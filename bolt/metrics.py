@@ -1,3 +1,4 @@
+import math
 import time
 import psutil
 
@@ -36,25 +37,6 @@ class EmptyMetric(Metric):
         return self.__result
 
 
-class ExactDictComparisonMetric(Metric):
-    NAME = "EXACT_DICT_COMPARISON"
-
-    def __init__(self) -> None:
-        super().__init__(ExactDictComparisonMetric.NAME)
-        self.__expected = None
-        self.__result = None
-
-    def setup(self, expected: Parameter = None):
-        self.__expected = expected
-
-    def teardown(self, output: Parameter):
-        self.__result = self.__expected == output
-
-    @property
-    def value(self):
-        return self.__result
-
-
 class ExecutionTimeMetric(Metric):
     NAME = "EXECUTION_TIME"
 
@@ -87,6 +69,46 @@ class MemoryConsumption(Metric):
 
     def teardown(self, _: Parameter = None):
         self.__result = psutil.Process().memory_info().rss - self.__start
+
+    @property
+    def value(self):
+        return self.__result
+
+
+class ExactDictComparisonMetric(Metric):
+    NAME = "EXACT_DICT_COMPARISON"
+
+    def __init__(self) -> None:
+        super().__init__(ExactDictComparisonMetric.NAME)
+        self.__expected = None
+        self.__result = None
+
+    def setup(self, expected: Parameter = None):
+        self.__expected = expected
+
+    def teardown(self, output: Parameter):
+        self.__result = self.__expected == output
+
+    @property
+    def value(self):
+        return self.__result
+
+
+class ToleranceComparisonMetric(Metric):
+    NAME = "TOLERANCE_COMPARISON"
+
+    def __init__(self, tol=0.01) -> None:
+        super().__init__(ToleranceComparisonMetric.NAME)
+        self.__tolerance = tol
+        self.__expected = None
+        self.__result = None
+
+    def setup(self, expected: Parameter = None):
+        self.__expected = expected["result"]
+
+    def teardown(self, output: Parameter):
+        actual = output["result"]
+        self.__result = math.fabs(actual - self.__expected) < self.__tolerance
 
     @property
     def value(self):

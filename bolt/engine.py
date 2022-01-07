@@ -3,12 +3,6 @@ from typing import List
 from bolt import Parameter
 from bolt import Program
 from bolt.metrics import Metric
-from bolt.metrics import (
-    ExecutionTimeMetric,
-    MemoryConsumption,
-    Metric,
-    ExactDictComparisonMetric,
-)
 from bolt.report import Report
 
 
@@ -20,6 +14,7 @@ class Engine:
         self.__exec_metrics: List[Metric] = []
         self.__results_metrics: List[Metric] = []
         self.report = Report()
+        self.comprehensive_report = Report()
 
     def add_program(self, prog: Program) -> None:
         self.__programs.append(prog)
@@ -50,6 +45,18 @@ class Engine:
                 case["input"] = inp
                 self.report.add_program_report_case(prog.name, case)
 
+    def add_comprehensive_average_metric_report(self, metric_name):
+        for prog in self.report.programs_report:
+            self.comprehensive_report.add_program(prog)
+            correct_cases = 0
+            quantity_cases = 0
+            for case in self.report.programs_report[prog].cases:
+                correct_cases += 1 if case[metric_name] else 0
+                quantity_cases += 1
+
+            prog_accur = float(correct_cases) / float(quantity_cases)
+            self.comprehensive_report.add_program_metric(prog, metric_name, prog_accur)
+
     def __run_metrics_setup(self, idx):
         for metric in self.__exec_metrics:
             metric.setup()
@@ -68,30 +75,3 @@ class Engine:
             case[metric.NAME] = metric.value
 
         return case
-
-
-class ExecutionCorrectnessEngine(Engine):
-    def __init__(self) -> None:
-        super().__init__()
-        self.add_results_metrics(ExactDictComparisonMetric())
-        self.comprehensive_report = Report()
-
-    def add_input(self, inp: Parameter) -> None:
-        msg = (
-            "ExecutionCorrectnessEngine must use "
-            "add_input_and_expected_output method"
-        )
-        raise Exception(msg)
-
-    def run(self) -> None:
-        super().run()
-        for prog in self.report.programs_report:
-            self.comprehensive_report.add_program(prog)
-            correct_cases = 0
-            quantity_cases = 0
-            for case in self.report.programs_report[prog].cases:
-                correct_cases += 1 if case["EXACT_DICT_COMPARISON"] else 0
-                quantity_cases += 1
-
-            prog_accur = float(correct_cases) / float(quantity_cases)
-            self.comprehensive_report.set_program_accuracy(prog, prog_accur)
