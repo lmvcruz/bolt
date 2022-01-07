@@ -1,3 +1,4 @@
+from bolt.engine import Engine
 from bolt.parameter import Parameter
 from bolt.program import Program
 
@@ -6,8 +7,8 @@ class FibonacciProgram(Program):
     def __init__(self) -> None:
         super().__init__()
 
-    def exec(self, input: Parameter):
-        return Parameter({"output": self.calculate(input["index"])})
+    def run(self, input: Parameter):
+        return Parameter({"result": self.calculate(input["index"])})
 
     def calculate(self, _):
         raise NotImplementedError()
@@ -54,3 +55,22 @@ class IteratorFibonacci(FibonacciProgram):
             n2 = fib
             fib = n1 + n2
         return fib
+
+
+def execute_naive_fibonacci(indices):
+    engine = Engine()
+    prog = NaiveFibonacci()
+    engine.add_program(prog)
+    for inp in indices:
+        input = Parameter({"index": inp})
+        engine.add_input(input)
+    engine.run()
+    print(engine.execution_output)
+
+
+def main():
+    execute_naive_fibonacci([0, 1, 2, 3, 4, 5, 6, 7, 8])
+
+
+if __name__ == "__main__":
+    main()

@@ -6,7 +6,7 @@ class Program:
     def __init__(self) -> None:
         pass
 
-    def exec(self, _: Parameter):
+    def run(self, _: Parameter):
         raise NotImplementedError()
 
 
@@ -34,13 +34,11 @@ class ProgramController:
 
     def run(self, input: Parameter = {}):
         self.setup(input)
-        self.output = self.program.exec(input)
+        self.output = self.program.run(input)
         self.teardown(self.output)
 
     def to_dict(self):
-        d = {
-            "output": self.output
-        }
+        d = {"output": self.output}
         for m in self.metrics:
             d[m.name] = m.value
         return d
