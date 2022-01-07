@@ -3,8 +3,8 @@ from bolt.parameter import Parameter
 
 
 class Program:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, name) -> None:
+        self.name = name
 
     def run(self, _: Parameter):
         raise NotImplementedError()

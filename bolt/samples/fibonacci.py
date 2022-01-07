@@ -4,8 +4,8 @@ from bolt.program import Program
 
 
 class FibonacciProgram(Program):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, name) -> None:
+        super().__init__(name)
 
     def run(self, input: Parameter):
         return Parameter({"result": self.calculate(input["index"])})
@@ -16,7 +16,7 @@ class FibonacciProgram(Program):
 
 class NaiveFibonacci(FibonacciProgram):
     def __init__(self) -> None:
-        super().__init__()
+        super().__init__(NaiveFibonacci.__name__)
 
     def calculate(self, n):
         if n < 2:
@@ -26,7 +26,7 @@ class NaiveFibonacci(FibonacciProgram):
 
 class DpFibonacci(FibonacciProgram):
     def __init__(self) -> None:
-        super().__init__()
+        super().__init__(DpFibonacci.__name__)
         self.memo = {}
 
     def calculate(self, n):
@@ -42,7 +42,7 @@ class DpFibonacci(FibonacciProgram):
 
 class IteratorFibonacci(FibonacciProgram):
     def __init__(self) -> None:
-        super().__init__()
+        super().__init__(IteratorFibonacci.__name__)
 
     def calculate(self, n):
         if n < 2:
@@ -65,7 +65,8 @@ def execute_naive_fibonacci(indices):
         input = Parameter({"index": inp})
         engine.add_input(input)
     engine.run()
-    print(engine.execution_output)
+    report = engine.report
+    report.show()
 
 
 def main():

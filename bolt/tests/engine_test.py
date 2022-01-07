@@ -14,18 +14,32 @@ class EngineTest(unittest.TestCase):
         engine.add_input(None)
         engine.add_input(None)
         engine.run()
-        expected_output = [Parameter({"result": 1}), Parameter({"result": 1})]
-        self.assertEqual(engine.execution_output, expected_output)
+        report = engine.report
+        self.assertEqual(len(report.programs_report), 1)
+        self.assertEqual(len(report.programs_report["Mock"].cases), 2)
+        self.assertEqual(
+            report.programs_report["Mock"].cases[0]["output"], {"result": 1}
+        )
+        self.assertEqual(
+            report.programs_report["Mock"].cases[1]["output"], {"result": 1}
+        )
 
     def test_run_naive_fibonacci_with_engine(self):
         engine = Engine()
         prog = NaiveFibonacci()
         engine.add_program(prog)
-        engine.add_input(Parameter({"index": 1}))
-        engine.add_input(Parameter({"index": 3}))
+        engine.add_input(Parameter({"index": 0}))
+        engine.add_input(Parameter({"index": 4}))
         engine.run()
-        expected_output = [Parameter({"result": 1}), Parameter({"result": 3})]
-        self.assertEqual(engine.execution_output, expected_output)
+        report = engine.report
+        self.assertEqual(len(report.programs_report), 1)
+        self.assertEqual(len(report.programs_report["NaiveFibonacci"].cases), 2)
+        self.assertEqual(
+            report.programs_report["NaiveFibonacci"].cases[0]["output"], {"result": 1}
+        )
+        self.assertEqual(
+            report.programs_report["NaiveFibonacci"].cases[1]["output"], {"result": 5}
+        )
 
 
 if __name__ == "__main__":

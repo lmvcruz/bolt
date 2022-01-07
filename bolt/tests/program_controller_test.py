@@ -26,7 +26,7 @@ class ProgramControllerTest(unittest.TestCase):
         self.assertEqual(controller.execution_time, 0)
         self.assertEqual(controller.memory, 0)
         self.assertEqual(controller.output, None)
-        controller.set_program(Program())
+        controller.set_program(Program(""))
         self.assertTrue(isinstance(controller.program, Program))
         controller.add_metric(EmptyMetric())
         self.assertEqual(controller.metrics[0].NAME, EmptyMetric.NAME)
