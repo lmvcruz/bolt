@@ -1,6 +1,6 @@
 from bolt import Parameter
 from bolt import Program
-from bolt.engine import Engine
+from bolt.engine import Engine, ExecutionCorrectnessEngine
 from bolt.metrics import (
     ExecutionTimeMetric,
     MemoryConsumption,
@@ -72,23 +72,20 @@ def execute_naive_fibonacci(indices):
         input = Parameter({"index": inp})
         engine.add_input(input)
     engine.run()
-    report = engine.report
-    report.show()
+    engine.report.show()
 
 
 def validate_naive_fibonacci_result(indices, results):
-    engine = Engine()
+    engine = ExecutionCorrectnessEngine()
     engine.add_program(NaiveFibonacci())
     engine.add_execution_metric(ExecutionTimeMetric())
     engine.add_execution_metric(MemoryConsumption())
-    engine.add_results_metrics(ExactDictComparisonMetric())
     for idx, res in zip(indices, results):
         input = Parameter({"index": idx})
         expected_out = Parameter({"result": res})
         engine.add_input_and_expected_output(input, expected_out)
     engine.run()
-    report = engine.report
-    report.show()
+    engine.comprehensive_report.show()
 
 
 def main():

@@ -3,6 +3,12 @@ from typing import List
 from bolt import Parameter
 from bolt import Program
 from bolt.metrics import Metric
+from bolt.metrics import (
+    ExecutionTimeMetric,
+    MemoryConsumption,
+    Metric,
+    ExactDictComparisonMetric,
+)
 from bolt.report import Report
 
 
@@ -62,3 +68,30 @@ class Engine:
             case[metric.NAME] = metric.value
 
         return case
+
+
+class ExecutionCorrectnessEngine(Engine):
+    def __init__(self) -> None:
+        super().__init__()
+        self.add_results_metrics(ExactDictComparisonMetric())
+        self.comprehensive_report = Report()
+
+    def add_input(self, inp: Parameter) -> None:
+        msg = (
+            "ExecutionCorrectnessEngine must use "
+            "add_input_and_expected_output method"
+        )
+        raise Exception(msg)
+
+    def run(self) -> None:
+        super().run()
+        for prog in self.report.programs_report:
+            self.comprehensive_report.add_program(prog)
+            correct_cases = 0
+            quantity_cases = 0
+            for case in self.report.programs_report[prog].cases:
+                correct_cases += 1 if case["EXACT_DICT_COMPARISON"] else 0
+                quantity_cases += 1
+
+            prog_accur = float(correct_cases) / float(quantity_cases)
+            self.comprehensive_report.set_program_accuracy(prog, prog_accur)
