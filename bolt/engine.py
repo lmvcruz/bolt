@@ -44,6 +44,8 @@ class Engine:
                 case = self.__run_metrics_teardown(out)
                 case["input"] = inp
                 self.report.add_program_report_case(prog.name, case)
+                if self.__expected_output:
+                    case["expected"] = self.__expected_output[idx]
 
     def add_comprehensive_average_metric_report(self, metric_name):
         for prog in self.report.programs_report:
@@ -75,3 +77,4 @@ class Engine:
             case[metric.NAME] = metric.value
 
         return case
+

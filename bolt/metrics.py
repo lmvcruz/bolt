@@ -133,3 +133,35 @@ class AccuracyMetric(Metric):
     @property
     def value(self):
         return self.__result
+
+
+class ConfusionMatrixMetric(Metric):
+    NAME = "CONFUSION_MATRIX"
+
+    def __init__(self) -> None:
+        super().__init__(AccuracyMetric.NAME)
+        self.__expected = None
+        self.__result = {
+            "true_positive": 0,
+            "true_negative": 0,
+            "false_positive": 0,
+            "false_negative": 0,
+        }
+
+    def setup(self, expected: Parameter = None):
+        self.__expected = expected["result"]
+
+    def teardown(self, output: Parameter):
+        actual = output["result"]
+        if self.__expected and actual:
+            self.__result["true_positive"] += 1
+        elif self.__expected and not actual:
+            self.__result["false_negative"] += 1
+        elif actual:  # expected == False
+            self.__result["false_positive"] += 1
+        else:  # expected == False and actual == False
+            self.__result["true_negative"] += 1
+
+    @property
+    def value(self):
+        return self.__result
