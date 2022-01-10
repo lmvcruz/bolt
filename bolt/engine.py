@@ -1,7 +1,7 @@
 from typing import List
 
 from bolt import Parameter
-from bolt import Program
+from bolt.program import Program
 from bolt.metrics import Metric
 from bolt.report import Report
 

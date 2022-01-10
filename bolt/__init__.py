@@ -10,14 +10,8 @@ class Parameter(dict):
         setattr(self, name, val)
 
 
-class Program:
-    def __init__(self, name) -> None:
-        self.name = name
-
-    def run(self, _: Parameter):
-        raise NotImplementedError()
-
-
-from . import engine
+from . import program
 from . import metrics
 from . import report
+
+from . import engine
