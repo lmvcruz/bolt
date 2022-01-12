@@ -47,6 +47,12 @@ class Engine:
                 if self.__expected_output:
                     case["expected"] = self.__expected_output[idx]
 
+    def post_processing(self, post_program):
+        for prog in self.report.programs_report:
+            prog_report = self.report.programs_report[prog]
+            for case in prog_report.cases:
+                post_program.run(case)
+
     def add_comprehensive_average_metric_report(self, metric_name):
         for prog in self.report.programs_report:
             self.comprehensive_report.add_program(prog)
