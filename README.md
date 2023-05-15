@@ -1,10 +1,11 @@
-# bolt
+# Using virtual environment
 
-First of all, I am not very good at jokes. You will understand what I mean ;)
+## Create the virtual environment
+python3 -m venv boltenv
 
-The goal of this project is to create a tool that:
-- automate the execution of a program using several arguments  
-- measure the program execution
-- evaluate the program execution
+## Activate the virtual environment
+source boltenv/bin/activate
 
-Basically, this project is a program runner. And the best runner I know is Usain Bolt. I told you, I am not good at jokes ;)
+## Adding bolt library path to the virtual environemt
+Rename bolt-EXAMPLE.pth to bolt.pth
+Change the file content to have the absolute path to the project folder
