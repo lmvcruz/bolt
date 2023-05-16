@@ -5,12 +5,12 @@ from abc import abstractmethod
 class Task:
     @abstractmethod
     def setup(self) -> None:
-        pass
+        raise NotImplementedError("Calling a Task abstract method")
 
     @abstractmethod
     def run(self, parameters: dict) -> str:
-        return ""
+        raise NotImplementedError("Calling a Task abstract method")
 
     @abstractmethod
     def teardown(self) -> None:
-        pass
+        raise NotImplementedError("Calling a Task abstract method")

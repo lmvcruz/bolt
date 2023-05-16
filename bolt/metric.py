@@ -9,11 +9,11 @@ class Metric():
 
     @abstractmethod
     def setup(self):
-        pass
+        raise NotImplementedError("Calling a Metric abstract method")
 
     @abstractmethod
     def teardown(self, _=None):
-        pass
+        raise NotImplementedError("Calling a Metric abstract method")
 
 
 class ExecutionTimeMetric(Metric):
