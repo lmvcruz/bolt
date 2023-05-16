@@ -1,6 +1,7 @@
 from abc import abstractmethod
 import time
 
+
 class Metric():
     def __init__(self) -> None:
         self.report = {}
@@ -13,6 +14,7 @@ class Metric():
     @abstractmethod
     def teardown(self, _=None):
         pass
+
 
 class ExecutionTimeMetric(Metric):
     def __init__(self) -> None:
