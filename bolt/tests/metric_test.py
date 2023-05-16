@@ -3,11 +3,13 @@ import time
 
 from bolt.metric import ExecutionTimeMetric
 
+
 def test_execution_time_metric_initialization():
     m = ExecutionTimeMetric()
     assert m.name == "ExecutionTime"
     assert m.report == {}
     assert m.start == None
+
 
 def test_execution_time_measurement():
     m = ExecutionTimeMetric()
