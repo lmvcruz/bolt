@@ -1,4 +1,4 @@
-from bolt.sample.keventask import KEvenSingleExecutionTask
+from bolt.samples.k_even_single_exec.keventask import KEvenSingleExecutionTask
 
 # This task is just a sample to be used for tests and demo
 def test_keven_task():
