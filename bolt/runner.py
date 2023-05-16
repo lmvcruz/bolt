@@ -1,10 +1,11 @@
 from bolt.task import Task
 
+
 class Runner:
     def __init__(self, task):
         self.metrics = []
         self.task = task
-        self.report = { "Metrics": {} }
+        self.report = {"Metrics": {}}
 
     def add_metric(self, metric):
         self.metrics.append(metric)
@@ -26,5 +27,3 @@ class Runner:
             m.teardown(self.report["ExecutionOutput"])
             self.report["Metrics"][m.name] = m.report
         self.task.teardown()
-
-
