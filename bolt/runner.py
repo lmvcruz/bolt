@@ -7,6 +7,10 @@ class Runner:
         self.task = task
         self.report = {"Metrics": {}}
 
+    @property
+    def name(self):
+        return self.task.name
+
     def add_metric(self, metric):
         self.metrics.append(metric)
 
