@@ -26,4 +26,5 @@ class SingleExecutionEngine(Engine):
 
     def run(self):
         for runner in self.runners:
-            rep = runner.run(self.input)
+            self.report[runner.name] = runner.run(self.input)
+

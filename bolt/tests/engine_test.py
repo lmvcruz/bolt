@@ -24,7 +24,7 @@ def test_single_exec_engine():
 
     assert engine.report == {}
     engine.run()
-    # assert "NaiveFibonacci" in engine.report
-    # assert "IteratorFibonacci" in engine.report
-    # assert "DpFibonacci" in engine.report
-
+    for fib_type in ["NaiveFibonacci", "IteratorFibonacci", "DpFibonacci"]:
+        assert fib_type in engine.report
+        assert engine.report[fib_type]["ExecutionOutput"] == 8
+        assert engine.report[fib_type]["Metrics"]["ExecutionTime"]["time"] > 0
