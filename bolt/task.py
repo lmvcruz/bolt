@@ -3,14 +3,17 @@ from abc import abstractmethod
 
 
 class Task:
-    @abstractmethod
+    def __init__(self, name):
+        self.name = name
+
     def setup(self) -> None:
-        raise NotImplementedError("Calling a Task abstract method")
+        # A task can have a setup, or not
+        pass
 
     @abstractmethod
     def run(self, parameters: dict) -> str:
         raise NotImplementedError("Calling a Task abstract method")
 
-    @abstractmethod
     def teardown(self) -> None:
-        raise NotImplementedError("Calling a Task abstract method")
+        # A task can have a teardown, or not
+        pass
