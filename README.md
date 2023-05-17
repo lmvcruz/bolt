@@ -12,3 +12,7 @@ Change the file content to have the absolute path to the project folder
 
 # Dependencies
 $ pip install -r requirements.txt
+
+# Run tests
+$ pytest -s .
+$ pytest -s bolt/tests/<TEST_FILE>
