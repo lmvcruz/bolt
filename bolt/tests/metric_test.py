@@ -26,7 +26,6 @@ def test_execution_time_measurement():
 # TODO: This memory consumption behaviour is not a stable implementation
 def test_memory_consumption_measurement():
     m = MemoryConsumption()
-    m = MemoryConsumption()
     assert m.value == None
     m.setup()
     m.teardown()

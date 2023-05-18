@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import List
+from typing import Any, List
 
 from bolt.runner import Runner
 from bolt.report import SingleExecutionReport
@@ -8,21 +8,21 @@ class Engine:
     def __init__(self) -> None:
         self.runners: List[Runner] = []
 
-    def add_runner(self, runner):
+    def add_runner(self, runner: Runner) -> None:
         self.runners.append(runner)
 
     @abstractmethod
     def run(self):
+        # Run method returns a report (a dataclass object)
+        # Different engine implementations might have different
+        # implementations of the report data
         raise NotImplementedError()
 
 
 class SingleExecutionEngine(Engine):
-    def __init__(self) -> None:
+    def __init__(self, input: dict) -> None:
         super().__init__()
-        self.input = {}
-
-    def add_input(self, name, value):
-        self.input[name] = value
+        self.input = input
 
     def run(self):
         report = SingleExecutionReport()
