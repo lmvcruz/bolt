@@ -22,9 +22,9 @@ def test_single_exec_engine():
     engine.add_input("index", 5)
     assert engine.input == {"index": 5}
 
-    assert engine.report == {}
-    engine.run()
+    report = engine.run()
     for fib_type in ["NaiveFibonacci", "IteratorFibonacci", "DpFibonacci"]:
-        assert fib_type in engine.report
-        assert engine.report[fib_type]["ExecutionOutput"] == 8
-        assert engine.report[fib_type]["Metrics"]["ExecutionTime"]["time"] > 0
+        assert fib_type in report.tasks
+        task_report = report.tasks[fib_type]
+        assert task_report.output == 8
+        assert task_report.metrics["ExecutionTime"]["time"] > 0

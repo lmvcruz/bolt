@@ -2,11 +2,11 @@ from abc import abstractmethod
 from typing import List
 
 from bolt.runner import Runner
+from bolt.report import SingleExecutionReport
 
 class Engine:
     def __init__(self) -> None:
         self.runners: List[Runner] = []
-        self.report: dict = {}
 
     def add_runner(self, runner):
         self.runners.append(runner)
@@ -25,6 +25,9 @@ class SingleExecutionEngine(Engine):
         self.input[name] = value
 
     def run(self):
+        report = SingleExecutionReport()
         for runner in self.runners:
-            self.report[runner.name] = runner.run(self.input)
+            report.input = self.input
+            report.tasks[runner.name] = runner.run(self.input)
+        return report
 
