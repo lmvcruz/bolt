@@ -3,11 +3,10 @@ from bolt.report import TaskReport
 
 
 class Runner:
-    def __init__(self, task):
+    def __init__(self, task: Task):
         self.metrics = []
         self.task = task
         self.report = TaskReport()
-        # self.report.task_name = task.name
 
     @property
     def name(self):

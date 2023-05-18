@@ -13,14 +13,14 @@ def test_single_exec_engine():
     iterator_fib_runner = Runner(IteratorFibonacci())
     iterator_fib_runner.add_metric(ExecutionTimeMetric())
 
-    engine = SingleExecutionEngine()
+    input = {"index": 5}
+    engine = SingleExecutionEngine(input)
+    assert engine.input == {"index": 5}
+
     engine.add_runner(naive_fib_runner)
     engine.add_runner(dp_fib_runner)
     engine.add_runner(iterator_fib_runner)
     assert len(engine.runners) == 3
-
-    engine.add_input("index", 5)
-    assert engine.input == {"index": 5}
 
     report = engine.run()
     for fib_type in ["NaiveFibonacci", "IteratorFibonacci", "DpFibonacci"]:
