@@ -1,5 +1,6 @@
 from abc import abstractmethod
 import time
+import psutil
 
 
 class Metric():
@@ -27,3 +28,20 @@ class ExecutionTimeMetric(Metric):
 
     def teardown(self, _=None):
         self.report["time"] = time.time() - self.start
+
+
+class MemoryConsumption(Metric):
+    def __init__(self) -> None:
+        super().__init__()
+        self.__start = None
+        self.__result = None
+
+    def setup(self):
+        self.__start = psutil.Process().memory_info().rss
+
+    def teardown(self):
+        self.__result = psutil.Process().memory_info().rss - self.__start
+
+    @property
+    def value(self):
+        return self.__result
